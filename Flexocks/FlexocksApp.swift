@@ -743,39 +743,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func runShellScript() {
 
-        func isCompilerInstalled() -> Bool {
-            let checkTask = Process()
-            checkTask.launchPath = "/bin/sh"
-            checkTask.arguments = ["-l", "-c", "gcc --version && clang --version"]
+        func isXcodeInstalled() -> Bool {
+            let path = "/Applications/Xcode.app"
+            let fileManager = FileManager.default
+            return fileManager.fileExists(atPath: path)
+        }
 
-            let pipe = Pipe()
-            checkTask.standardOutput = pipe
-            checkTask.launch()
-            checkTask.waitUntilExit()
-
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            let output = String(data: data, encoding: .utf8) ?? ""
-
-            // Checamos si el output contiene la palabra "gcc" o "clang" para confirmar que está instalado
-            let isGCCInstalled = output.contains("gcc")
-            let isClangInstalled = output.contains("clang")
-
-            writeToLog(message: "GCC está instalado: \(isGCCInstalled)")
-            writeToLog(message: "Clang está instalado: \(isClangInstalled)")
-
-            if checkTask.terminationStatus != 0 {
-                print("Los comandos gcc --version o clang --version fallaron.")
-                writeToLog(message: "Los compiladores NO están instalados.")
-                return false
+        func openXcodeInAppStore() {
+            if let url = URL(string: "macappstore://apps.apple.com/app/id497799835") {
+                NSWorkspace.shared.open(url)
             }
-
-            return isGCCInstalled || isClangInstalled
         }
 
         func isProgramInstalled(_ program: String) -> Bool {
             let checkTask = Process()
             checkTask.launchPath = "/bin/sh"
-
             checkTask.arguments = ["-l", "-c", "/usr/bin/which \(program)"]
 
             let pipe = Pipe()
@@ -841,24 +823,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        if !isCompilerInstalled() {
-            writeToLog(message: "Instalando gcc.......")
-            installProgram(programName: "gcc-13.2.0", tarURL: "https://mirror.lyrahosting.com/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.gz")
+        if !isXcodeInstalled() {
+            writeToLog(message: "Xcode no está instalado. Abriendo Mac App Store...")
+            openXcodeInAppStore()
+        } else {
+            if !isProgramInstalled("autossh") {
+                writeToLog(message: "Instalando autossh.......")
+                installProgram(programName: "autossh")
+            }
+
+            if !isProgramInstalled("expect") {
+                writeToLog(message: "Instalando expect.......")
+                installProgram(programName: "expect")
+            }
         }
-
-        if !isProgramInstalled("autossh") {
-            writeToLog(message: "Instalando autossh.......")
-            installProgram(programName: "autossh")
-        }
-
-        if !isProgramInstalled("expect") {
-            writeToLog(message: "Instalando expect.......")
-            installProgram(programName: "expect")
-        }
-
-
-
-
 
     }
 
