@@ -743,12 +743,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func runShellScript() {
 
+        func isCompilerInstalled() -> Bool {
+            let checkTask = Process()
+            checkTask.launchPath = "/bin/sh"
+            checkTask.arguments = ["-l", "-c", "gcc --version && clang --version"]
+
+            let pipe = Pipe()
+            checkTask.standardOutput = pipe
+            checkTask.launch()
+            checkTask.waitUntilExit()
+
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            let output = String(data: data, encoding: .utf8) ?? ""
+
+            // Checamos si el output contiene la palabra "gcc" o "clang" para confirmar que está instalado
+            let isGCCInstalled = output.contains("gcc")
+            let isClangInstalled = output.contains("clang")
+
+            writeToLog(message: "GCC está instalado: \(isGCCInstalled)")
+            writeToLog(message: "Clang está instalado: \(isClangInstalled)")
+
+            if checkTask.terminationStatus != 0 {
+                print("Los comandos gcc --version o clang --version fallaron.")
+                writeToLog(message: "Los compiladores NO están instalados.")
+                return false
+            }
+
+            return isGCCInstalled || isClangInstalled
+        }
+
         func isProgramInstalled(_ program: String) -> Bool {
             let checkTask = Process()
             checkTask.launchPath = "/bin/sh"
 
-            // Agregamos /opt/homebrew/bin a la lista de directorios a verificar
-            checkTask.arguments = ["-l", "-c", "PATH=$PATH:/opt/homebrew/bin:/usr/local/bin && /usr/bin/which \(program)"]
+            checkTask.arguments = ["-l", "-c", "/usr/bin/which \(program)"]
 
             let pipe = Pipe()
             checkTask.standardOutput = pipe
@@ -759,9 +787,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let output = String(data: data, encoding: .utf8) ?? ""
             let isInstalled = !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 
-            print("Comando ejecutado: \(checkTask.launchPath!) \(checkTask.arguments!.joined())")
-            print("Output: \(output)")
-            print("\(program) está instalado: \(isInstalled)")
             writeToLog(message: "\(program) está instalado: \(isInstalled)")
 
             if checkTask.terminationStatus != 0 {
@@ -815,23 +840,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        // Verificar e instalar gcc si es necesario
-        if !isProgramInstalled("gcc") {
+
+        if !isCompilerInstalled() {
             writeToLog(message: "Instalando gcc.......")
             installProgram(programName: "gcc-13.2.0", tarURL: "https://mirror.lyrahosting.com/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.gz")
         }
-        
-        // Verificar e instalar expect si es necesario
+
+        if !isProgramInstalled("autossh") {
+            writeToLog(message: "Instalando autossh.......")
+            installProgram(programName: "autossh")
+        }
+
         if !isProgramInstalled("expect") {
             writeToLog(message: "Instalando expect.......")
             installProgram(programName: "expect")
         }
 
-        // Verificar e instalar autossh si es necesario
-        if !isProgramInstalled("autossh") {
-            writeToLog(message: "Instalando autossh.......")
-            installProgram(programName: "autossh")
-        }
+
+
+
+
     }
 
     @objc func showConfigurationPopover() {
