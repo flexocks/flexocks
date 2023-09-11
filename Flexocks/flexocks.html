@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLEXOCKS: Configuración de proxy modificada</title>
+    <!-- Incluye las bibliotecas de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        window.onload = function () {
+            fetch('https://ipinfo.io/json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("ip-address").innerText = data.ip;
+                    const details = data.city ? `${data.city}, ${data.region}, ${data.country}` : data.ip;
+                    document.getElementById("location-info").innerText = details;
+
+                    if (data.loc) {
+                        const [lat, lon] = data.loc.split(",");
+                        initializeMap(parseFloat(lat), parseFloat(lon), details);
+                    } else {
+                        console.error("Could not retrieve location data from IP");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching IP info:", error);
+                });
+
+            var logFilePath = document.querySelector('meta[name="log-file-path"]').content;
+            document.querySelector('.field-value a[href*="flexocks.log"]').href = logFilePath;
+        };
+
+        function initializeMap(lat, lon, popupContent) {
+            var map = L.map('map-frame').setView([lat, lon], 9);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup(popupContent)
+                .openPopup();
+        }
+
+        function initializeMap(lat, lon, popupContent) {
+            var map = L.map('map-frame').setView([lat, lon], 9);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup(popupContent)
+                .openPopup();
+        }
+    </script>
+    <style>
+        body {
+            background-color: #a19fb8;
+            color: #f9e8bd;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            padding-top: 5%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d5e5e7; 
+        }
+
+        .highlighted {
+            color: #3d3f50; 
+        }
+
+        .content-wrapper {
+            display: flex;
+            width: 80%;
+        }
+
+        .data-section, .map-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            font-size: 34px;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .field-name {
+            color: #3d3f50; 
+        }
+
+        .field-value {
+            font-weight: bold;
+            color: #d5e5e7;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        a {
+            color: #d5e5e7;
+        }
+        #map-frame {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><span class="highlighted">FLEXOCKS:</span> Configuración de proxy modificada</h1>
+
+    <div class="content-wrapper">
+        <div class="data-section">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="field-name">IP:</td>
+                        <td class="field-value" id="ip-address">Cargando...</td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Ubicación:</td>
+                        <td class="field-value" id="location-info">Cargando...</td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Fichero de log:</td>
+                        <td class="field-value"><a href="%%LOG_FILE_PATH%%" target="_blank">flexocks.log</a></td>
+                    </tr>
+                    <tr>
+                        <td class="field-name">Configuraciones:</td>
+                        <td class="field-value"><a href="about:policies">about:policies</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="map-section">
+            <div id="map-frame"></div> <!-- Changed iframe to div for Leaflet -->
+        </div>
+    </div>
+    <meta name="log-file-path" content="%%LOG_FILE_PATH%%">
+</body>
+
+</html>
+

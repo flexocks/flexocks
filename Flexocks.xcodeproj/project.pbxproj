@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5B3F807C2AA7CDCA00B2CB1F /* ffox.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B3F807B2AA7CDCA00B2CB1F /* ffox.icns */; };
+		5B7F43F12AA0D54200CBCEAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F43F02AA0D54200CBCEAB /* Assets.xcassets */; };
+		5B7F43F52AA0D54200CBCEAB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F43F42AA0D54200CBCEAB /* Preview Assets.xcassets */; };
+		5B7F44212AA0EE1100CBCEAB /* pi_off.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F44152AA0EE1100CBCEAB /* pi_off.icns */; };
+		5B7F44232AA0EE1100CBCEAB /* pi_int.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F44172AA0EE1100CBCEAB /* pi_int.icns */; };
+		5B7F44242AA0EE1100CBCEAB /* config.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F44182AA0EE1100CBCEAB /* config.icns */; };
+		5B7F44252AA0EE1100CBCEAB /* pi_on.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F44192AA0EE1100CBCEAB /* pi_on.icns */; };
+		5B7F44262AA0EE1100CBCEAB /* wave_roja.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F441A2AA0EE1100CBCEAB /* wave_roja.png */; };
+		5B7F44272AA0EE1100CBCEAB /* salir.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F441B2AA0EE1100CBCEAB /* salir.icns */; };
+		5B7F44282AA0EE1100CBCEAB /* wave_int.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F441C2AA0EE1100CBCEAB /* wave_int.png */; };
+		5B7F44292AA0EE1100CBCEAB /* wave_verde.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F441D2AA0EE1100CBCEAB /* wave_verde.png */; };
+		5B7F442B2AA0EE1100CBCEAB /* flexocks.expect in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F441F2AA0EE1100CBCEAB /* flexocks.expect */; };
+		5B7F442C2AA0EE1100CBCEAB /* wave_verde_.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F44202AA0EE1100CBCEAB /* wave_verde_.png */; };
+		5B84FD2E2AA892AD00F0F8E5 /* flexocks.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5B84FD2D2AA892AD00F0F8E5 /* flexocks.sh */; };
+		5B87969B2AA339A800EA6288 /* flexocks.html in Resources */ = {isa = PBXBuildFile; fileRef = 5B87969A2AA339A800EA6288 /* flexocks.html */; };
+		5B87969D2AA3496E00EA6288 /* Flexocks_off.html in Resources */ = {isa = PBXBuildFile; fileRef = 5B87969C2AA3496E00EA6288 /* Flexocks_off.html */; };
+		5B8796A42AA3716600EA6288 /* FlexocksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8796A32AA3716600EA6288 /* FlexocksApp.swift */; };
+		5B8796A82AA3782300EA6288 /* autossh.tgz in Resources */ = {isa = PBXBuildFile; fileRef = 5B8796A72AA3782300EA6288 /* autossh.tgz */; };
+		5B8796AA2AA37B8100EA6288 /* expect.tgz in Resources */ = {isa = PBXBuildFile; fileRef = 5B8796A92AA37B8100EA6288 /* expect.tgz */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5B3F807B2AA7CDCA00B2CB1F /* ffox.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ffox.icns; path = Flexocks/ffox.icns; sourceTree = "<group>"; };
+		5B7F43E92AA0D54000CBCEAB /* Flexocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flexocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B7F43F02AA0D54200CBCEAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5B7F43F22AA0D54200CBCEAB /* Flexocks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flexocks.entitlements; sourceTree = "<group>"; };
+		5B7F43F42AA0D54200CBCEAB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5B7F43FD2AA0D64100CBCEAB /* flexo_vacia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flexo_vacia.png; path = Flexocks/Assets.xcassets/AppIcon.appiconset/flexo_vacia.png; sourceTree = "<group>"; };
+		5B7F43FF2AA0D64100CBCEAB /* flexocks.expect */ = {isa = PBXFileReference; lastKnownFileType = text; name = flexocks.expect; path = Flexocks/flexocks.expect; sourceTree = "<group>"; };
+		5B7F44032AA0D64100CBCEAB /* flexocks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = flexocks.sh; path = Flexocks/flexocks.sh; sourceTree = "<group>"; };
+		5B7F44152AA0EE1100CBCEAB /* pi_off.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = pi_off.icns; path = Flexocks/pi_off.icns; sourceTree = "<group>"; };
+		5B7F44172AA0EE1100CBCEAB /* pi_int.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = pi_int.icns; path = Flexocks/pi_int.icns; sourceTree = "<group>"; };
+		5B7F44182AA0EE1100CBCEAB /* config.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = config.icns; path = Flexocks/config.icns; sourceTree = "<group>"; };
+		5B7F44192AA0EE1100CBCEAB /* pi_on.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = pi_on.icns; path = Flexocks/pi_on.icns; sourceTree = "<group>"; };
+		5B7F441A2AA0EE1100CBCEAB /* wave_roja.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wave_roja.png; path = Flexocks/wave_roja.png; sourceTree = "<group>"; };
+		5B7F441B2AA0EE1100CBCEAB /* salir.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = salir.icns; path = Flexocks/salir.icns; sourceTree = "<group>"; };
+		5B7F441C2AA0EE1100CBCEAB /* wave_int.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wave_int.png; path = Flexocks/wave_int.png; sourceTree = "<group>"; };
+		5B7F441D2AA0EE1100CBCEAB /* wave_verde.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wave_verde.png; path = Flexocks/wave_verde.png; sourceTree = "<group>"; };
+		5B7F441F2AA0EE1100CBCEAB /* flexocks.expect */ = {isa = PBXFileReference; lastKnownFileType = text; name = flexocks.expect; path = Flexocks/flexocks.expect; sourceTree = "<group>"; };
+		5B7F44202AA0EE1100CBCEAB /* wave_verde_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wave_verde_.png; path = Flexocks/wave_verde_.png; sourceTree = "<group>"; };
+		5B84FD2D2AA892AD00F0F8E5 /* flexocks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = flexocks.sh; path = Flexocks/flexocks.sh; sourceTree = "<group>"; };
+		5B87969A2AA339A800EA6288 /* flexocks.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = flexocks.html; path = Flexocks/flexocks.html; sourceTree = "<group>"; };
+		5B87969C2AA3496E00EA6288 /* Flexocks_off.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Flexocks_off.html; path = Flexocks/Flexocks_off.html; sourceTree = "<group>"; };
+		5B8796A22AA3716600EA6288 /* Flexocks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flexocks-Bridging-Header.h"; sourceTree = "<group>"; };
+		5B8796A32AA3716600EA6288 /* FlexocksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexocksApp.swift; sourceTree = "<group>"; };
+		5B8796A72AA3782300EA6288 /* autossh.tgz */ = {isa = PBXFileReference; lastKnownFileType = file; name = autossh.tgz; path = Flexocks/autossh.tgz; sourceTree = "<group>"; };
+		5B8796A92AA37B8100EA6288 /* expect.tgz */ = {isa = PBXFileReference; lastKnownFileType = file; name = expect.tgz; path = Flexocks/expect.tgz; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5B7F43E62AA0D54000CBCEAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5B7F43E02AA0D54000CBCEAB = {
+			isa = PBXGroup;
+			children = (
+				5B84FD2D2AA892AD00F0F8E5 /* flexocks.sh */,
+				5B3F807B2AA7CDCA00B2CB1F /* ffox.icns */,
+				5B8796A92AA37B8100EA6288 /* expect.tgz */,
+				5B8796A72AA3782300EA6288 /* autossh.tgz */,
+				5B87969C2AA3496E00EA6288 /* Flexocks_off.html */,
+				5B87969A2AA339A800EA6288 /* flexocks.html */,
+				5B7F44182AA0EE1100CBCEAB /* config.icns */,
+				5B7F441F2AA0EE1100CBCEAB /* flexocks.expect */,
+				5B7F44172AA0EE1100CBCEAB /* pi_int.icns */,
+				5B7F44152AA0EE1100CBCEAB /* pi_off.icns */,
+				5B7F44192AA0EE1100CBCEAB /* pi_on.icns */,
+				5B7F441B2AA0EE1100CBCEAB /* salir.icns */,
+				5B7F441C2AA0EE1100CBCEAB /* wave_int.png */,
+				5B7F441A2AA0EE1100CBCEAB /* wave_roja.png */,
+				5B7F44202AA0EE1100CBCEAB /* wave_verde_.png */,
+				5B7F441D2AA0EE1100CBCEAB /* wave_verde.png */,
+				5B7F43FD2AA0D64100CBCEAB /* flexo_vacia.png */,
+				5B7F43FF2AA0D64100CBCEAB /* flexocks.expect */,
+				5B7F44032AA0D64100CBCEAB /* flexocks.sh */,
+				5B7F43EB2AA0D54000CBCEAB /* Flexocks */,
+				5B7F43EA2AA0D54000CBCEAB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5B7F43EA2AA0D54000CBCEAB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5B7F43E92AA0D54000CBCEAB /* Flexocks.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5B7F43EB2AA0D54000CBCEAB /* Flexocks */ = {
+			isa = PBXGroup;
+			children = (
+				5B7F43F02AA0D54200CBCEAB /* Assets.xcassets */,
+				5B7F43F22AA0D54200CBCEAB /* Flexocks.entitlements */,
+				5B7F43F32AA0D54200CBCEAB /* Preview Content */,
+				5B8796A32AA3716600EA6288 /* FlexocksApp.swift */,
+				5B8796A22AA3716600EA6288 /* Flexocks-Bridging-Header.h */,
+			);
+			path = Flexocks;
+			sourceTree = "<group>";
+		};
+		5B7F43F32AA0D54200CBCEAB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				5B7F43F42AA0D54200CBCEAB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5B7F43E82AA0D54000CBCEAB /* Flexocks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B7F43F82AA0D54200CBCEAB /* Build configuration list for PBXNativeTarget "Flexocks" */;
+			buildPhases = (
+				5B7F43E52AA0D54000CBCEAB /* Sources */,
+				5B7F43E62AA0D54000CBCEAB /* Frameworks */,
+				5B7F43E72AA0D54000CBCEAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Flexocks;
+			productName = Flexocks;
+			productReference = 5B7F43E92AA0D54000CBCEAB /* Flexocks.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5B7F43E12AA0D54000CBCEAB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					5B7F43E82AA0D54000CBCEAB = {
+						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
+					};
+				};
+			};
+			buildConfigurationList = 5B7F43E42AA0D54000CBCEAB /* Build configuration list for PBXProject "Flexocks" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5B7F43E02AA0D54000CBCEAB;
+			productRefGroup = 5B7F43EA2AA0D54000CBCEAB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5B7F43E82AA0D54000CBCEAB /* Flexocks */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5B7F43E72AA0D54000CBCEAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B84FD2E2AA892AD00F0F8E5 /* flexocks.sh in Resources */,
+				5B3F807C2AA7CDCA00B2CB1F /* ffox.icns in Resources */,
+				5B8796AA2AA37B8100EA6288 /* expect.tgz in Resources */,
+				5B8796A82AA3782300EA6288 /* autossh.tgz in Resources */,
+				5B87969D2AA3496E00EA6288 /* Flexocks_off.html in Resources */,
+				5B87969B2AA339A800EA6288 /* flexocks.html in Resources */,
+				5B7F44212AA0EE1100CBCEAB /* pi_off.icns in Resources */,
+				5B7F44232AA0EE1100CBCEAB /* pi_int.icns in Resources */,
+				5B7F44242AA0EE1100CBCEAB /* config.icns in Resources */,
+				5B7F44252AA0EE1100CBCEAB /* pi_on.icns in Resources */,
+				5B7F44262AA0EE1100CBCEAB /* wave_roja.png in Resources */,
+				5B7F44272AA0EE1100CBCEAB /* salir.icns in Resources */,
+				5B7F44282AA0EE1100CBCEAB /* wave_int.png in Resources */,
+				5B7F44292AA0EE1100CBCEAB /* wave_verde.png in Resources */,
+				5B7F442B2AA0EE1100CBCEAB /* flexocks.expect in Resources */,
+				5B7F442C2AA0EE1100CBCEAB /* wave_verde_.png in Resources */,
+				5B7F43F52AA0D54200CBCEAB /* Preview Assets.xcassets in Resources */,
+				5B7F43F12AA0D54200CBCEAB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5B7F43E52AA0D54000CBCEAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B8796A42AA3716600EA6288 /* FlexocksApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5B7F43F62AA0D54200CBCEAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5B7F43F72AA0D54200CBCEAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		5B7F43F92AA0D54200CBCEAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64,
+					x86_64,
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Flexocks/Flexocks.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Flexocks/Preview Content\"";
+				DEVELOPMENT_TEAM = 75WFBQS393;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
+				INFOPLIST_KEY_LSUIElement = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = R.Flexocks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Flexocks/Flexocks-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5B7F43FA2AA0D54200CBCEAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64,
+					x86_64,
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Flexocks/Flexocks.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Flexocks/Preview Content\"";
+				DEVELOPMENT_TEAM = 75WFBQS393;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
+				INFOPLIST_KEY_LSUIElement = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = R.Flexocks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Flexocks/Flexocks-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5B7F43E42AA0D54000CBCEAB /* Build configuration list for PBXProject "Flexocks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B7F43F62AA0D54200CBCEAB /* Debug */,
+				5B7F43F72AA0D54200CBCEAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5B7F43F82AA0D54200CBCEAB /* Build configuration list for PBXNativeTarget "Flexocks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B7F43F92AA0D54200CBCEAB /* Debug */,
+				5B7F43FA2AA0D54200CBCEAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5B7F43E12AA0D54000CBCEAB /* Project object */;
+}

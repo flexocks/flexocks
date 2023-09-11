@@ -1,0 +1,48 @@
+#!/usr/bin/expect -f
+set prompt "#|>|\\\$"
+
+# Modificar la variable PATH en expect
+set env(PATH) "$env(PATH):/usr/local/bin:/usr/bin:/opt/homebrew/bin"
+
+set host [lindex $argv 0]
+set puertoLocal [lindex $argv 1]
+set puertoRemoto [lindex $argv 2]
+set user [lindex $argv 3]
+set password [lindex $argv 4]
+
+spawn autossh -M 0 -o "ServerAliveInterval 60" -D $puertoLocal -p $puertoRemoto $user@$host
+
+expect {
+    # Si se pregunta por añadir el host
+    "you sure" { 
+        send "yes\r"
+        exp_continue
+    }
+    
+    # Si se pregunta por la frase de contraseña de la clave SSH
+    "Enter passphrase for key" { 
+        send "$password\r"
+        exp_continue
+    }
+    
+    # Si se pide la contraseña de usuario
+    "password:" { 
+        send "$password\r"
+        exp_continue
+    }
+    # La app de Android pide "Password authentication"
+    "authentication" {
+        send "$password\r"
+        exp_continue
+    }
+    # Con la P mayúscula
+    "Password:" {
+        send "$password\r"
+        exp_continue
+    }
+
+    -re $prompt {}
+}
+
+interact
+
