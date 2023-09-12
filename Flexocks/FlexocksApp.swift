@@ -884,9 +884,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
 
-        func executeWithAdminPrivileges(command: String) {
+        func executeCommand(command: String) {
             let appleScriptCommand = """
-            do shell script "\(command)" with administrator privileges
+            do shell script "\(command)"
             """
 
             if let appleScript = NSAppleScript(source: appleScriptCommand) {
@@ -914,8 +914,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         func installBrewSilently() {
+            let opensudosession = "pwd"
+            executeWithSudo(command: opensudosession)
             let installBrewCommand = "NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
-            executeWithSudo(command: installBrewCommand)
+            executeCommand(command: installBrewCommand)
             writeToLog(message: "Intento de instalación de Homebrew completado.")
         }
 
