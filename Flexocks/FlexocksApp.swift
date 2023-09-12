@@ -875,7 +875,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // Segunda comprobación: comprobando la ubicación en Macs con M1
             let fileManager = FileManager.default
             if fileManager.fileExists(atPath: "/opt/homebrew/bin/brew") {
-                writeToLog(message: "brew está instalado: true")
+                writeToLog(message: "brew está instalado en /opt/homebrew/bin/: true")
                 return true
             }
 
@@ -904,11 +904,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             writeToLog(message: "Intento de instalación de Homebrew completado.")
         }
 
-        func installProgramWithBrew(programName: String) {
-            let brewInstallCommand = "brew install \(programName)"
-            executeWithAdminPrivileges(command: brewInstallCommand)
-            writeToLog(message: "Intento de instalación de \(programName) con Homebrew completado.")
+        func getBrewPath() -> String? {
+            // Verifica en las rutas comunes
+            let commonPaths = ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
+
+            for path in commonPaths {
+                if FileManager.default.fileExists(atPath: path) {
+                    return path
+                }
+            }
+
+            return nil
         }
+
+        func installProgramWithBrew(programName: String) {
+             guard let brewPath = getBrewPath() else {
+                 writeToLog(message: "No se pudo encontrar la ruta de Homebrew.")
+                 return
+             }
+
+             let brewInstallCommand = "\(brewPath) install \(programName)"
+
+             let installTask = Process()
+             installTask.launchPath = "/bin/sh"
+             installTask.arguments = ["-l", "-c", brewInstallCommand]
+
+             let pipe = Pipe()
+             installTask.standardOutput = pipe
+             installTask.launch()
+             installTask.waitUntilExit()
+
+             let data = pipe.fileHandleForReading.readDataToEndOfFile()
+             let output = String(data: data, encoding: .utf8) ?? ""
+
+             writeToLog(message: "Resultado de instalación de \(programName) con Homebrew: \(output)")
+
+             if installTask.terminationStatus != 0 {
+                 writeToLog(message: "Error al instalar \(programName) con Homebrew.")
+             } else {
+                 writeToLog(message: "Instalación de \(programName) con Homebrew completada exitosamente.")
+             }
+         }
+
 
         DispatchQueue.global(qos: .background).async {
             if !isBrewInstalled() {
