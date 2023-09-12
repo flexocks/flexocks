@@ -884,9 +884,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
 
-        func executeCommand(command: String) {
+        func openTerminalAndInstallBrew() {
             let appleScriptCommand = """
-            do shell script "\(command)" with administrator privileges
+            tell application "Terminal"
+                activate
+                do script "/bin/bash -c \\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\\""
+            end tell
             """
 
             if let appleScript = NSAppleScript(source: appleScriptCommand) {
@@ -896,17 +899,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     writeToLog(message: "Error al ejecutar comando: \(actualError)")
                 }
             }
-        }
-
-        func installBrew() {
-            let mirrorCommands = """
-            sudo -v; \
-            export HOMEBREW_BREW_GIT_REMOTE=\"https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git\"; \
-            export HOMEBREW_CORE_GIT_REMOTE=\"https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git\"; \
-            yes \"\" | INTERACTIVE=1 /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"
-            """
-
-            executeCommand(command: mirrorCommands)
         }
 
         func getBrewPath() -> String? {
@@ -954,8 +946,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         DispatchQueue.global(qos: .background).async {
             if !isBrewInstalled() {
-                writeToLog(message: "Homebrew no está instalado. Instalando...")
-                installBrew()
+                writeToLog(message: "Homebrew no está instalado. Abriendo Terminal para la instalación...")
+                openTerminalAndInstallBrew()
             }
 
             if !isProgramInstalled("autossh") {
