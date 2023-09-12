@@ -888,7 +888,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let appleScriptCommand = """
             tell application "Terminal"
                 activate
-                do script "/bin/bash -c \\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\\""
+            do script "/bin/bash -c \\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh); echo \\"export PATH=/opt/homebrew/bin:$PATH\\" >> ~/.bash_profile && source ~/.bash_profile\\""
             end tell
             """
 
