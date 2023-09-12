@@ -878,6 +878,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             }
         func installBrewSilently() {
+            let establishSudoSessionCommand = "/bin/bash"
+            let establishSudoSessionArguments = ["-c", "sudo echo 'sesion con sudo abierta'"]
+
+            let sudoProcess = Process()
+            sudoProcess.launchPath = establishSudoSessionCommand
+            sudoProcess.arguments = establishSudoSessionArguments
+            sudoProcess.launch()
+            sudoProcess.waitUntilExit()
+
+            if sudoProcess.terminationStatus != 0 {
+                writeToLog(message: "Failed to establish sudo session.")
+                return
+            }
+
             let brewInstallCommand = "/bin/bash"
             let arguments = ["-c", "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"]
 
@@ -905,6 +919,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+
 
             func installProgramWithBrew(programName: String) {
                 let brewInstallCommands = """
