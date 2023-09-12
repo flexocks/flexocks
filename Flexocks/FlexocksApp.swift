@@ -863,20 +863,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
                 return isInstalled
             }
-            func isBrewInstalled() -> Bool {
-                let checkTask = Process()
-                checkTask.launchPath = "/bin/sh"
-                checkTask.arguments = ["-l", "-c", "which brew"]
-
-                let pipe = Pipe()
-                checkTask.standardOutput = pipe
-                checkTask.launch()
-                checkTask.waitUntilExit()
-
-                let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                let output = String(data: data, encoding: .utf8) ?? ""
-                return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        func isBrewInstalled() -> Bool {
+            // Primera comprobación: usando which
+            if isCommandAvailable("brew") {
+                writeToLog(message: "brew está instalado: true")
+                return true
             }
+
+            // Segunda comprobación: comprobando la ubicación en Macs con M1
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: "/opt/homebrew/bin/brew") {
+                writeToLog(message: "brew está instalado: true")
+                return true
+            }
+            
+            // Si ninguna de las comprobaciones anteriores fue exitosa, devolvemos false
+            writeToLog(message: "brew está instalado: false")
+            return false
+
+        }
+
+        func isCommandAvailable(_ command: String) -> Bool {
+            let checkTask = Process()
+            checkTask.launchPath = "/bin/sh"
+            checkTask.arguments = ["-l", "-c", "which \(command)"]
+
+            let pipe = Pipe()
+            checkTask.standardOutput = pipe
+            checkTask.launch()
+            checkTask.waitUntilExit()
+
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            let output = String(data: data, encoding: .utf8) ?? ""
+            return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+
+
         func installBrewSilently() {
             let establishSudoSessionCommand = "/bin/bash"
             let establishSudoSessionArguments = ["-c", "sudo echo 'sesion con sudo abierta'"]
