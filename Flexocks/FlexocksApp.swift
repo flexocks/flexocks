@@ -3,6 +3,7 @@ import AppKit
 import Foundation
 import CryptoKit
 import Security
+import Dispatch
 
 struct Configuration: Codable {
     var host: String
@@ -742,7 +743,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func runShellScript() {
-
+        /*
         func isXcodeInstalled() -> Bool {
             let path = "/Applications/Xcode.app"
             let fileManager = FileManager.default
@@ -837,7 +838,107 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 installProgram(programName: "expect")
             }
         }
+            */
+            func isProgramInstalled(_ program: String) -> Bool {
+                let checkTask = Process()
+                checkTask.launchPath = "/bin/sh"
+                checkTask.arguments = ["-l", "-c", "/usr/bin/which \(program)"]
 
+                let pipe = Pipe()
+                checkTask.standardOutput = pipe
+                checkTask.launch()
+                checkTask.waitUntilExit()
+
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(data: data, encoding: .utf8) ?? ""
+                let isInstalled = !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+
+                writeToLog(message: "\(program) está instalado: \(isInstalled)")
+
+                if checkTask.terminationStatus != 0 {
+                    print("El comando /usr/bin/which falló para \(program).")
+                    writeToLog(message: "\(program) NO está instalado: \(isInstalled)")
+                    return false
+                }
+
+                return isInstalled
+            }
+            func isBrewInstalled() -> Bool {
+                let checkTask = Process()
+                checkTask.launchPath = "/bin/sh"
+                checkTask.arguments = ["-l", "-c", "which brew"]
+
+                let pipe = Pipe()
+                checkTask.standardOutput = pipe
+                checkTask.launch()
+                checkTask.waitUntilExit()
+
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(data: data, encoding: .utf8) ?? ""
+                return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            }
+            func installBrewSilently() {
+                let brewInstallCommand = "/bin/bash"
+                let arguments = ["-c", "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash"]
+
+                let process = Process()
+                process.launchPath = brewInstallCommand
+                process.arguments = arguments
+
+                let pipe = Pipe()
+                process.standardOutput = pipe
+                process.standardError = pipe
+
+                DispatchQueue.global(qos: .background).async {
+                    process.launch()
+                    process.waitUntilExit()
+
+                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                    let output = String(data: data, encoding: .utf8) ?? ""
+
+                    DispatchQueue.main.async {
+                        if process.terminationStatus != 0 {
+                            writeToLog(message: "Error al instalar brew: \(output)")
+                        } else {
+                            writeToLog(message: "Homebrew instalado correctamente.")
+                        }
+                    }
+                }
+            }
+
+            func installProgramWithBrew(programName: String) {
+                let brewInstallCommands = """
+                do shell script "brew install \(programName)" with administrator privileges
+                """
+
+                if let appleScript = NSAppleScript(source: brewInstallCommands) {
+                    var error: NSDictionary?
+                    appleScript.executeAndReturnError(&error)
+                    if let actualError = error {
+                        writeToLog(message: "Error al instalar \(programName) con brew: \(actualError)")
+                    } else {
+                        writeToLog(message: "\(programName) instalado correctamente con Homebrew.")
+                    }
+                }
+            }
+
+            DispatchQueue.global(qos: .background).async {
+
+                if !isBrewInstalled() {
+                    writeToLog(message: "Homebrew no está instalado. Instalando...")
+                    installBrewSilently()
+                }
+
+                if !isProgramInstalled("autossh") {
+                    writeToLog(message: "Instalando autossh con Homebrew.......")
+                    installProgramWithBrew(programName: "autossh")
+                }
+
+                if !isProgramInstalled("expect") {
+                    writeToLog(message: "Instalando expect con Homebrew.......")
+                    installProgramWithBrew(programName: "expect")
+                }
+            }
     }
 
     @objc func showConfigurationPopover() {
