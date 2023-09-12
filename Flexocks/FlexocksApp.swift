@@ -898,10 +898,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        func executeWithSudo(command: String) {
+            let sudoCommand = "sudo \(command)"
+            let appleScriptCommand = """
+            do shell script "\(sudoCommand)" with administrator privileges
+            """
+
+            if let appleScript = NSAppleScript(source: appleScriptCommand) {
+                var error: NSDictionary?
+                appleScript.executeAndReturnError(&error)
+                if let actualError = error {
+                    writeToLog(message: "Error al ejecutar comando: \(actualError)")
+                }
+            }
+        }
 
         func installBrewSilently() {
             let installBrewCommand = "NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
-            executeWithAdminPrivileges(command: installBrewCommand)
+            executeWithSudo(command: installBrewCommand)
             writeToLog(message: "Intento de instalación de Homebrew completado.")
         }
 
