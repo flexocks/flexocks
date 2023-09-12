@@ -52,11 +52,11 @@ done
 if [ "$action" == "start" ]; then
     [ -d "$DIST_DIR" ] || mkdir -p "$DIST_DIR"
 
-    # Copiar el archivo HTML al directorio de distribución
-    cp "${resources_path}/flexocks.html" "$DIST_DIR/"
-
     # Modificar el archivo HTML para incluir la ruta del archivo de registro
     sed -i "" "s|%%LOG_FILE_PATH%%|$LOG_FILE|g" "$HTML_FILE_PATH"
+
+    # Copiar el archivo HTML al directorio de distribución
+    cp "${resources_path}/flexocks.html" "$DIST_DIR/"
 
     cat > "$POLICIES_FILE" <<EOL
 {
