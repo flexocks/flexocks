@@ -884,27 +884,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
 
-        func executeCommand(command: String, withSudo: Bool = false) {
-            var finalCommand = command
-
-            // Si se requiere sudo, se activa la sesión sudo
-            if withSudo {
-                let sudoActivationCommand = "sudo -v" // Solicita la contraseña de sudo sin ejecutar ningún otro comando
-                let appleScriptSudoCommand = """
-                do shell script "\(sudoActivationCommand)" with administrator privileges
-                """
-
-                if let appleScriptSudo = NSAppleScript(source: appleScriptSudoCommand) {
-                    var error: NSDictionary?
-                    appleScriptSudo.executeAndReturnError(&error)
-                    if let actualError = error {
-                        writeToLog(message: "Error al activar sudo: \(actualError)")
-                    }
-                }
-            }
-
+        func executeCommand(command: String) {
             let appleScriptCommand = """
-            do shell script "\(finalCommand)"
+            do shell script "\(command)" with administrator privileges
             """
 
             if let appleScript = NSAppleScript(source: appleScriptCommand) {
@@ -917,14 +899,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         func installBrew() {
-            let commands = """
-            export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-            export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-            yes "" | INTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            let mirrorCommands = """
+            sudo -v; \
+            export HOMEBREW_BREW_GIT_REMOTE=\"https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git\"; \
+            export HOMEBREW_CORE_GIT_REMOTE=\"https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git\"; \
+            yes \"\" | INTERACTIVE=1 /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"
             """
-            executeCommand(command: commands, withSudo: true)
-        }
 
+            executeCommand(command: mirrorCommands)
+        }
 
         func getBrewPath() -> String? {
             // Verifica en las rutas comunes
