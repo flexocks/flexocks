@@ -885,8 +885,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         func executeCommand(command: String) {
+            var finalCommand = command
+
+            // Si el comando es el de instalación de brew, activamos sudo con pwd
+            if command.contains("https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh") {
+                let sudoActivationCommand = "sudo -v" // Este comando solicitará la contraseña de sudo sin ejecutar nada
+                let appleScriptSudoCommand = """
+                do shell script "\(sudoActivationCommand)" with administrator privileges
+                """
+
+                if let appleScriptSudo = NSAppleScript(source: appleScriptSudoCommand) {
+                    var error: NSDictionary?
+                    appleScriptSudo.executeAndReturnError(&error)
+                    if let actualError = error {
+                        writeToLog(message: "Error al activar sudo: \(actualError)")
+                    }
+                }
+            }
+
             let appleScriptCommand = """
-            do shell script "\(command)"
+            do shell script "\(finalCommand)"
             """
 
             if let appleScript = NSAppleScript(source: appleScriptCommand) {
@@ -898,24 +916,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        func executeWithSudo(command: String) {
-            let sudoCommand = "sudo \(command)"
-            let appleScriptCommand = """
-            do shell script "\(sudoCommand)" with administrator privileges
-            """
-
-            if let appleScript = NSAppleScript(source: appleScriptCommand) {
-                var error: NSDictionary?
-                appleScript.executeAndReturnError(&error)
-                if let actualError = error {
-                    writeToLog(message: "Error al ejecutar comando: \(actualError)")
-                }
-            }
-        }
 
         func installBrewSilently() {
-            let opensudosession = "pwd"
-            executeWithSudo(command: opensudosession)
             let installBrewCommand = "NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
             executeCommand(command: installBrewCommand)
             writeToLog(message: "Intento de instalación de Homebrew completado.")
