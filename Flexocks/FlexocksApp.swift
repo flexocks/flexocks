@@ -877,34 +877,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let output = String(data: data, encoding: .utf8) ?? ""
                 return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             }
-            func installBrewSilently() {
-                let brewInstallCommand = "/bin/bash"
-                let arguments = ["-c", "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash"]
+        func installBrewSilently() {
+            let brewInstallCommand = "/bin/bash"
+            let arguments = ["-c", "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"]
 
-                let process = Process()
-                process.launchPath = brewInstallCommand
-                process.arguments = arguments
+            let process = Process()
+            process.launchPath = brewInstallCommand
+            process.arguments = arguments
 
-                let pipe = Pipe()
-                process.standardOutput = pipe
-                process.standardError = pipe
+            let pipe = Pipe()
+            process.standardOutput = pipe
+            process.standardError = pipe
 
-                DispatchQueue.global(qos: .background).async {
-                    process.launch()
-                    process.waitUntilExit()
+            DispatchQueue.global(qos: .background).async {
+                process.launch()
+                process.waitUntilExit()
 
-                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                    let output = String(data: data, encoding: .utf8) ?? ""
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(data: data, encoding: .utf8) ?? ""
 
-                    DispatchQueue.main.async {
-                        if process.terminationStatus != 0 {
-                            writeToLog(message: "Error al instalar brew: \(output)")
-                        } else {
-                            writeToLog(message: "Homebrew instalado correctamente.")
-                        }
+                DispatchQueue.main.async {
+                    if process.terminationStatus != 0 {
+                        writeToLog(message: "Error al instalar brew: \(output)")
+                    } else {
+                        writeToLog(message: "Homebrew instalado correctamente.")
                     }
                 }
             }
+        }
 
             func installProgramWithBrew(programName: String) {
                 let brewInstallCommands = """
