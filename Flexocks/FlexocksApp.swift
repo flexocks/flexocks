@@ -884,28 +884,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
 
-        func installBrewSilently() {
-            let installBrewCommand = "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
+        func executeWithAdminPrivileges(command: String) {
+            let appleScriptCommand = """
+            do shell script "\(command)" with administrator privileges
+            """
 
-            let brewInstallTask = Process()
-            brewInstallTask.launchPath = "/bin/sh"
-            brewInstallTask.arguments = ["-l", "-c", installBrewCommand]
-
-            let pipe = Pipe()
-            brewInstallTask.standardOutput = pipe
-            brewInstallTask.launch()
-            brewInstallTask.waitUntilExit()
-
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            let output = String(data: data, encoding: .utf8) ?? ""
-
-            writeToLog(message: "Resultado de la instalación de Homebrew: \(output)")
-
-            if brewInstallTask.terminationStatus != 0 {
-                writeToLog(message: "Error al instalar Homebrew.")
-            } else {
-                writeToLog(message: "Instalación de Homebrew completada exitosamente.")
+            if let appleScript = NSAppleScript(source: appleScriptCommand) {
+                var error: NSDictionary?
+                appleScript.executeAndReturnError(&error)
+                if let actualError = error {
+                    writeToLog(message: "Error al ejecutar comando: \(actualError)")
+                }
             }
+        }
+
+
+        func installBrewSilently() {
+            let installBrewCommand = "NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
+            executeWithAdminPrivileges(command: installBrewCommand)
+            writeToLog(message: "Intento de instalación de Homebrew completado.")
         }
 
         func getBrewPath() -> String? {
