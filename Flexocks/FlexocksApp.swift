@@ -884,12 +884,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
 
-        func executeCommand(command: String) {
+        func executeCommand(command: String, withSudo: Bool = false) {
             var finalCommand = command
 
-            // Si el comando es el de instalación de brew, activamos sudo con pwd
-            if command.contains("https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh") {
-                let sudoActivationCommand = "sudo -v" // Este comando solicitará la contraseña de sudo sin ejecutar nada
+            // Si se requiere sudo, se activa la sesión sudo
+            if withSudo {
+                let sudoActivationCommand = "sudo -v" // Solicita la contraseña de sudo sin ejecutar ningún otro comando
                 let appleScriptSudoCommand = """
                 do shell script "\(sudoActivationCommand)" with administrator privileges
                 """
@@ -916,12 +916,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-
-        func installBrewSilently() {
-            let installBrewCommand = "NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash"
-            executeCommand(command: installBrewCommand)
-            writeToLog(message: "Intento de instalación de Homebrew completado.")
+        func installBrew() {
+            let commands = """
+            export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+            export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+            yes "" | INTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            """
+            executeCommand(command: commands, withSudo: true)
         }
+
 
         func getBrewPath() -> String? {
             // Verifica en las rutas comunes
@@ -969,7 +972,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.global(qos: .background).async {
             if !isBrewInstalled() {
                 writeToLog(message: "Homebrew no está instalado. Instalando...")
-                installBrewSilently()
+                installBrew()
             }
 
             if !isProgramInstalled("autossh") {
