@@ -725,7 +725,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Limpiar el archivo de log al inicio de la aplicación
         cleanLogFile()
         writeToLog(message: " Inicia conexión")
         runShellScript()
@@ -742,33 +741,73 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print(logFileURL)
     }
 
-    func runShellScript() {
+    func isProgramInstalled(_ program: String) -> Bool {
+        let process = Process()
+        process.launchPath = "/usr/bin/which"
+        process.arguments = [program]
 
-        func openTerminalAndInstallBrew(completion: @escaping (Bool) -> Void) {
-            // No necesitamos la solicitud de contraseña aquí, ya que sudo en el script la manejará
-            guard let scriptPath = Bundle.main.path(forResource: "installbrew", ofType: "sh") else {
-                writeToLog(message: "Failed to find installbrew.sh script.")
-                completion(false)
-                return
-            }
+        let pipe = Pipe()
+        process.standardOutput = pipe
 
-            let task = Process()
-            task.launchPath = "/usr/bin/env"
-            task.arguments = ["/usr/bin/open", "-a", "Terminal.app", scriptPath]
+        process.launch()
+        process.waitUntilExit()
 
-            task.launch()
-            task.waitUntilExit()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: data, encoding: .utf8)
 
-            // Verifica el estado de salida
-            if task.terminationStatus == 0 {
-                completion(true)
-            } else {
-                completion(false)
+        if output?.contains(program) ?? false {
+            return true
+        }
+
+        let commonPaths = [
+            "/usr/local/bin/",
+            "/opt/homebrew/bin/",
+            "/usr/bin/",
+            "/bin/",
+            "/usr/sbin/",
+            "/sbin/"
+        ]
+
+        let fileManager = FileManager.default
+        for path in commonPaths {
+            if fileManager.fileExists(atPath: path + program) {
+                return true
             }
         }
 
-        DispatchQueue.global(qos: .background).async {
-            openTerminalAndInstallBrew { success in
+        return false
+    }
+
+    func openTerminalAndInstallBrew(completion: @escaping (Bool) -> Void) {
+        guard let scriptPath = Bundle.main.path(forResource: "installbrew", ofType: "sh") else {
+            writeToLog(message: "Failed to find installbrew.sh script.")
+            completion(false)
+            return
+        }
+
+        let task = Process()
+        task.launchPath = "/usr/bin/env"
+        task.arguments = ["/usr/bin/open", "-a", "Terminal.app", scriptPath]
+
+        task.launch()
+        task.waitUntilExit()
+
+        if task.terminationStatus == 0 {
+            completion(true)
+        } else {
+            completion(false)
+        }
+    }
+
+    func runShellScript() {
+        // Comprobación inicial en la app
+        if isProgramInstalled("brew") && isProgramInstalled("autossh") && isProgramInstalled("expect") {
+            writeToLog(message: "Todos los programas ya están instalados. No se ejecutará el script.")
+            return
+        }
+
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.openTerminalAndInstallBrew { success in
                 if success {
                     writeToLog(message: "Homebrew, autossh y expect instalados o ya estaban presentes.")
                 } else {
@@ -776,7 +815,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+
     }
+
 
     @objc func showConfigurationPopover() {
         NSApp.activate(ignoringOtherApps: true)
