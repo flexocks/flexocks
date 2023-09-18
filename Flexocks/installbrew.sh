@@ -15,6 +15,7 @@ check_installed() {
 add_to_path() {
     local path_to_add=$1
 
+    # Detecta el shell del usuario
     local shell_profile
     if [[ "$SHELL" == "/bin/zsh" ]]; then
         shell_profile="$HOME/.zshrc"
@@ -24,7 +25,6 @@ add_to_path() {
 
     echo "Añadiendo $path_to_add al $shell_profile..."
     echo "export PATH=\"$path_to_add:\$PATH\"" >> "$shell_profile"
-    source "$shell_profile"
 }
 
 brew_path=$(check_installed brew)
@@ -36,11 +36,15 @@ if [[ $? -ne 0 ]]; then
         exit 1
     fi
 
-    brew update
+    brew_path=$(check_installed brew)
+    if [[ $? -ne 0 ]]; then
+        echo "No se pudo encontrar Homebrew después de la instalación. Finalizando..."
+        exit 1
+    fi
 else
     echo "Homebrew ya está instalado en $brew_path. Saltando su instalación..."
 
-    if [[ ! "$PATH" =~ "$brew_path" ]]; then
+    if [[ ! "$PATH" =~ "$(dirname "$brew_path")" ]]; then
         add_to_path "$(dirname "$brew_path")"
     fi
 fi
@@ -48,7 +52,7 @@ fi
 check_installed autossh
 if [[ $? -ne 0 ]]; then
     echo "autossh no está presente. Instalando..."
-    brew install autossh
+    "$brew_path" install autossh
 else
     echo "autossh ya está instalado. Saltando su instalación..."
 fi
@@ -56,8 +60,7 @@ fi
 check_installed expect
 if [[ $? -ne 0 ]]; then
     echo "expect no está presente. Instalando..."
-    brew install expect
+    "$brew_path" install expect
 else
     echo "expect ya está instalado. Saltando su instalación..."
 fi
-
