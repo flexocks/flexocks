@@ -65,4 +65,4 @@ else
     echo "expect ya está instalado. Saltando su instalación..."
 fi
 
-osascript -e 'tell application "Terminal" to close first window'
+osascript -e 'tell application "Terminal" to close first window without saving'
