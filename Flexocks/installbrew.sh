@@ -64,3 +64,5 @@ if [[ $? -ne 0 ]]; then
 else
     echo "expect ya está instalado. Saltando su instalación..."
 fi
+
+osascript -e 'tell application "Terminal" to close first window'
