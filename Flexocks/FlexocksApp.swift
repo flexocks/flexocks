@@ -874,20 +874,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         func openTerminalAndInstallBrew() {
-            let appleScriptCommand = """
-            tell application "Terminal"
-                activate
-            do script "/bin/bash -c \\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh); echo \\"export PATH=/opt/homebrew/bin:$PATH\\" >> ~/.bash_profile && source ~/.bash_profile\\""
-            end tell
-            """
+            let task = Process()
+            task.launchPath = "/usr/bin/env"
+            task.arguments = ["/bin/bash", "-c", """
+            /usr/bin/open -a Terminal.app /bin/bash -c \\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh); echo \\"export PATH=/opt/homebrew/bin:$PATH\\" >> ~/.bash_profile && source ~/.bash_profile\\"
+            """]
 
-            if let appleScript = NSAppleScript(source: appleScriptCommand) {
-                var error: NSDictionary?
-                appleScript.executeAndReturnError(&error)
-                if let actualError = error {
-                    writeToLog(message: "Error al ejecutar comando: \(actualError)")
-                }
-            }
+            task.launch()
+            task.waitUntilExit()
         }
 
         func getBrewPath() -> String? {
