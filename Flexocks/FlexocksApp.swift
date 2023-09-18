@@ -854,8 +854,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let data = pipe.fileHandleForReading.readDataToEndOfFile()
             let output = String(data: data, encoding: .utf8)
 
-            return output?.contains(program) ?? false
+            if output?.contains(program) ?? false {
+                return true
+            }
+
+            // Additional check for common paths
+            let commonPaths = [
+                "/usr/local/bin/",
+                "/opt/homebrew/bin/"
+            ]
+
+            let fileManager = FileManager.default
+            for path in commonPaths {
+                if fileManager.fileExists(atPath: path + program) {
+                    return true
+                }
+            }
+
+            return false
         }
+
 
         func isBrewInstalled() -> Bool {
             if isProgramInstalled("brew") {
@@ -873,9 +891,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
 
-        func openTerminalAndInstallBrew() {
+        func openTerminalAndInstallBrew(completion: @escaping (Bool) -> Void) {
             guard let scriptPath = Bundle.main.path(forResource: "installbrew", ofType: "sh") else {
                 writeToLog(message: "Failed to find installbrew.sh script.")
+                completion(false)
                 return
             }
 
@@ -885,6 +904,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             task.launch()
             task.waitUntilExit()
+
+            // Check the exit status
+            if task.terminationStatus == 0 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
 
         func getBrewPath() -> String? {
@@ -900,51 +926,69 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return nil
         }
 
-        func installProgramWithBrew(programName: String) {
-             guard let brewPath = getBrewPath() else {
-                 writeToLog(message: "No se pudo encontrar la ruta de Homebrew.")
-                 return
-             }
+        func installProgramWithBrew(programName: String, completion: @escaping (Bool) -> Void) {
+            guard let brewPath = getBrewPath() else {
+                writeToLog(message: "No se pudo encontrar la ruta de Homebrew.")
+                completion(false)
+                return
+            }
 
-             let brewInstallCommand = "\(brewPath) install \(programName)"
+            let brewInstallCommand = "\(brewPath) install \(programName)"
 
-             let installTask = Process()
-             installTask.launchPath = "/bin/sh"
-             installTask.arguments = ["-l", "-c", brewInstallCommand]
+            let installTask = Process()
+            installTask.launchPath = "/bin/sh"
+            installTask.arguments = ["-l", "-c", brewInstallCommand]
 
-             let pipe = Pipe()
-             installTask.standardOutput = pipe
-             installTask.launch()
-             installTask.waitUntilExit()
+            let pipe = Pipe()
+            installTask.standardOutput = pipe
+            installTask.launch()
+            installTask.waitUntilExit()
 
-             let data = pipe.fileHandleForReading.readDataToEndOfFile()
-             let output = String(data: data, encoding: .utf8) ?? ""
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            let output = String(data: data, encoding: .utf8) ?? ""
 
-             writeToLog(message: "Resultado de instalación de \(programName) con Homebrew: \(output)")
+            writeToLog(message: "Resultado de instalación de \(programName) con Homebrew: \(output)")
 
-             if installTask.terminationStatus != 0 {
-                 writeToLog(message: "Error al instalar \(programName) con Homebrew.")
-             } else {
-                 writeToLog(message: "Instalación de \(programName) con Homebrew completada exitosamente.")
-             }
-         }
+            if installTask.terminationStatus != 0 {
+                writeToLog(message: "Error al instalar \(programName) con Homebrew.")
+                completion(false)
+            } else {
+                writeToLog(message: "Instalación de \(programName) con Homebrew completada.")
+                completion(true)
+            }
+        }
 
+        func installRequiredPrograms() {
+            let requiredPrograms = ["autossh", "expect"]
+            for program in requiredPrograms {
+                if !isProgramInstalled(program) {
+                    writeToLog(message: "Instalando \(program) con Homebrew.......")
+                    installProgramWithBrew(programName: program) { success in
+                        if success {
+                            writeToLog(message: "\(program) está instalado: true")
+                        }
+                    }
+                } else {
+                    writeToLog(message: "\(program) está instalado: true")
+                }
+            }
+        }
 
         DispatchQueue.global(qos: .background).async {
             if !isBrewInstalled() {
                 writeToLog(message: "Homebrew no está instalado. Abriendo Terminal para la instalación...")
-                openTerminalAndInstallBrew()
-            }
+                openTerminalAndInstallBrew { success in
+                    if success {
+                        writeToLog(message: "Homebrew instalado")
+                        installRequiredPrograms()
+                    } else {
+                        writeToLog(message: "NO se ha instalado homebrew")
+                    }
+                }
 
-
-            if !isProgramInstalled("autossh") {
-                writeToLog(message: "Instalando autossh con Homebrew.......")
-                installProgramWithBrew(programName: "autossh")
-            }
-
-            if !isProgramInstalled("expect") {
-                writeToLog(message: "Instalando expect con Homebrew.......")
-                installProgramWithBrew(programName: "expect")
+            } else {
+                writeToLog(message: "Homebrew está instalado")
+                installRequiredPrograms()
             }
         }
     }
