@@ -841,45 +841,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         */
 
         func isProgramInstalled(_ program: String) -> Bool {
-            let checkTask = Process()
-            checkTask.launchPath = "/bin/sh"
-            checkTask.arguments = ["-l", "-c", "/usr/bin/which \(program)"]
+            let process = Process()
+            process.launchPath = "/usr/bin/which"
+            process.arguments = [program]
 
             let pipe = Pipe()
-            checkTask.standardOutput = pipe
-            checkTask.launch()
-            checkTask.waitUntilExit()
+            process.standardOutput = pipe
+
+            process.launch()
+            process.waitUntilExit()
 
             let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            let output = String(data: data, encoding: .utf8) ?? ""
-            let isInstalled = !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            let output = String(data: data, encoding: .utf8)
 
-            writeToLog(message: "\(program) está instalado: \(isInstalled)")
-
-            if checkTask.terminationStatus != 0 {
-                print("El comando /usr/bin/which falló para \(program).")
-                writeToLog(message: "\(program) NO está instalado")
-                return false
-            }
-
-            return isInstalled
+            return output?.contains(program) ?? false
         }
 
         func isBrewInstalled() -> Bool {
-            // Primera comprobación: usando which
             if isProgramInstalled("brew") {
                 writeToLog(message: "brew está instalado: true")
                 return true
             }
 
-            // Segunda comprobación: comprobando la ubicación en Macs con M1
             let fileManager = FileManager.default
             if fileManager.fileExists(atPath: "/opt/homebrew/bin/brew") {
                 writeToLog(message: "brew está instalado en /opt/homebrew/bin/: true")
                 return true
             }
 
-            // Si ninguna de las comprobaciones anteriores fue exitosa, devolvemos false
             writeToLog(message: "brew está instalado: false")
             return false
         }
@@ -949,6 +938,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 writeToLog(message: "Homebrew no está instalado. Abriendo Terminal para la instalación...")
                 openTerminalAndInstallBrew()
             }
+
 
             if !isProgramInstalled("autossh") {
                 writeToLog(message: "Instalando autossh con Homebrew.......")
