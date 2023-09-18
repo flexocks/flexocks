@@ -892,6 +892,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         func openTerminalAndInstallBrew(completion: @escaping (Bool) -> Void) {
+            // Solicita la contraseña de sudo al usuario
+            let alert = NSAlert()
+            alert.messageText = "Permiso requerido"
+            alert.informativeText = "Por favor, ingresa tu contraseña para continuar con la instalación."
+            alert.alertStyle = .warning
+
+            let input = NSSecureTextField(frame: NSRect(x: 0, y: 0, width: 300, height: 24))
+            alert.accessoryView = input
+            alert.addButton(withTitle: "OK")
+            alert.addButton(withTitle: "Cancelar")
+
+            let response = alert.runModal()
+            if response != .alertFirstButtonReturn {
+                // Si el usuario cancela la solicitud de contraseña, termina la función
+                completion(false)
+                return
+            }
+
+            var password = input.stringValue
+
+            // Pasa la contraseña como un argumento al script (¡cuidado con la seguridad!)
             guard let scriptPath = Bundle.main.path(forResource: "installbrew", ofType: "sh") else {
                 writeToLog(message: "Failed to find installbrew.sh script.")
                 completion(false)
@@ -900,19 +921,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             let task = Process()
             task.launchPath = "/usr/bin/env"
-            task.arguments = ["/usr/bin/open", "-a", "Terminal.app", scriptPath]
+            task.arguments = ["/usr/bin/open", "-a", "Terminal.app", scriptPath, password]
 
             task.launch()
             task.waitUntilExit()
 
-            // Check the exit status
+            // Limpia la contraseña de la memoria
+            // (Nota: esta es una limpieza básica; en un escenario real, considera técnicas más avanzadas para limpiar la memoria)
+            for _ in 0..<password.count {
+                password.removeLast()
+            }
+
+            // Verifica el estado de salida
             if task.terminationStatus == 0 {
                 completion(true)
             } else {
                 completion(false)
             }
         }
-
+        
         func getBrewPath() -> String? {
             // Verifica en las rutas comunes
             let commonPaths = ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
