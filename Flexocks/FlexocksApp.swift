@@ -874,11 +874,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         func openTerminalAndInstallBrew() {
+            guard let scriptPath = Bundle.main.path(forResource: "installbrew", ofType: "sh") else {
+                writeToLog(message: "Failed to find installbrew.sh script.")
+                return
+            }
+
             let task = Process()
             task.launchPath = "/usr/bin/env"
-            task.arguments = ["/bin/bash", "-c", """
-            /usr/bin/open -a Terminal.app /bin/bash -c \\"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh); echo \\"export PATH=/opt/homebrew/bin:$PATH\\" >> ~/.bash_profile && source ~/.bash_profile\\"
-            """]
+            task.arguments = ["/usr/bin/open", "-a", "Terminal.app", scriptPath]
 
             task.launch()
             task.waitUntilExit()

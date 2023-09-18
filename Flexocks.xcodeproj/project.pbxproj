@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B1B56492AB88139007A1AD6 /* installbrew.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5B1B56482AB88127007A1AD6 /* installbrew.sh */; };
 		5B3F807C2AA7CDCA00B2CB1F /* ffox.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5B3F807B2AA7CDCA00B2CB1F /* ffox.icns */; };
 		5B7F43F12AA0D54200CBCEAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F43F02AA0D54200CBCEAB /* Assets.xcassets */; };
 		5B7F43F52AA0D54200CBCEAB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F43F42AA0D54200CBCEAB /* Preview Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B1B56482AB88127007A1AD6 /* installbrew.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = installbrew.sh; path = Flexocks/installbrew.sh; sourceTree = "<group>"; };
 		5B3F807B2AA7CDCA00B2CB1F /* ffox.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ffox.icns; path = Flexocks/ffox.icns; sourceTree = "<group>"; };
 		5B7F43E92AA0D54000CBCEAB /* Flexocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flexocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B7F43F02AA0D54200CBCEAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				5B7F44152AA0EE1100CBCEAB /* pi_off.icns */,
 				5B7F44192AA0EE1100CBCEAB /* pi_on.icns */,
 				5B7F441B2AA0EE1100CBCEAB /* salir.icns */,
+				5B1B56482AB88127007A1AD6 /* installbrew.sh */,
 				5B7F441C2AA0EE1100CBCEAB /* wave_int.png */,
 				5B7F441A2AA0EE1100CBCEAB /* wave_roja.png */,
 				5B7F44202AA0EE1100CBCEAB /* wave_verde_.png */,
@@ -181,6 +184,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B1B56492AB88139007A1AD6 /* installbrew.sh in Resources */,
 				5B84FD2E2AA892AD00F0F8E5 /* flexocks.sh in Resources */,
 				5B3F807C2AA7CDCA00B2CB1F /* ffox.icns in Resources */,
 				5B8796AA2AA37B8100EA6288 /* expect.tgz in Resources */,
