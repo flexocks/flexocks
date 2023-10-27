@@ -37,6 +37,10 @@ while [[ $# -gt 1 ]]; do
         puertoRemoto="$2"
         shift
         ;;
+        -o|--extrassh)
+        extrassh="$2"
+        shift
+        ;;
         -u|--usuario)
         usuario="$2"
         shift
@@ -88,7 +92,7 @@ EOL
                 echo "Conexión SSH ya establecida. No se vuelve a ejecutar"
             fi
         else
-            nohup "$script_expect" "$host" "$puertoLocal" "$puertoRemoto" "$usuario" "$contrasena" >> "$LOG_FILE" 2>&1 &
+            nohup "$script_expect" "$host" "$puertoLocal" "$puertoRemoto" "$extrassh" "$usuario" "$contrasena" >> "$LOG_FILE" 2>&1 &
             echo "Conexión SSH en ejecución."
             echo "Archivo de políticas de Firefox generado con éxito para SOCKS 5 Proxy."
         fi

@@ -11,6 +11,7 @@ struct Configuration: Codable {
     var puertoRemoto: String
     var usuario: String
     var contrasena: String
+    var extrassh: String
 
 
     static let filename = "config.json"
@@ -33,7 +34,7 @@ struct Configuration: Codable {
         }
 
         if !FileManager.default.fileExists(atPath: url.path) {
-            let emptyConfig = Configuration(host: "", puertoLocal: "", puertoRemoto: "", usuario: "", contrasena: "")
+            let emptyConfig = Configuration(host: "", puertoLocal: "", puertoRemoto: "", usuario: "", contrasena: "", extrassh: "")
             emptyConfig.saveToFile()
             return emptyConfig
         }
@@ -74,7 +75,7 @@ struct Configuration: Codable {
         }
 
         do {
-            let configMasked = Configuration(host: self.host, puertoLocal: self.puertoLocal, puertoRemoto: self.puertoRemoto, usuario: self.usuario, contrasena: "[OCULTA]")
+            let configMasked = Configuration(host: self.host, puertoLocal: self.puertoLocal, puertoRemoto: self.puertoRemoto, usuario: self.usuario, contrasena: "[OCULTA]", extrassh: self.extrassh)
 
             let encoder = JSONEncoder()
             let data = try encoder.encode(configMasked)
@@ -157,10 +158,10 @@ class AppManager: ObservableObject {
         }
     }
 
-    func configureApp(host: String, puertoLocal: String, puertoRemoto: String, usuario: String, contrasena: String) {
+    func configureApp(host: String, puertoLocal: String, puertoRemoto: String, usuario: String, contrasena: String, extrassh: String) {
         if let symmetricKey = leerSymmetricKey() {
             if let contrasenaCifrada = cifrar(input: contrasena, using: symmetricKey) {
-                let newConfig = Configuration(host: host, puertoLocal: puertoLocal, puertoRemoto: puertoRemoto, usuario: usuario, contrasena: contrasenaCifrada)
+                let newConfig = Configuration(host: host, puertoLocal: puertoLocal, puertoRemoto: puertoRemoto, usuario: usuario, contrasena: contrasenaCifrada, extrassh: extrassh)
                 newConfig.saveToFile()
                 self.configuration = newConfig
             } else {
@@ -204,7 +205,7 @@ class AppManager: ObservableObject {
             return
         }
 
-        let flexocksParamsMasked = "-h \(configuration.host) -l \(configuration.puertoLocal) -r \(configuration.puertoRemoto) -u \(configuration.usuario) -c [OCULTA]"
+        let flexocksParamsMasked = "-h \(configuration.host) -l \(configuration.puertoLocal) -r \(configuration.puertoRemoto) -o \(configuration.extrassh) -u \(configuration.usuario) -c [OCULTA]"
 
         writeToLog(message: "Check status de conexión con Flexocks params: \(flexocksParamsMasked)")
 
@@ -310,10 +311,12 @@ class AppManager: ObservableObject {
             writeToLog(message: "Error al obtener la contraseña cifrada desde el Keychain.")
         }
 
-        let flexocksParamsMasked = "-h \(configuration.host) -l \(configuration.puertoLocal) -r \(configuration.puertoRemoto) -u \(configuration.usuario) -c [OCULTA]"
-        let flexocksParams = "-h \(configuration.host) -l \(configuration.puertoLocal) -r \(configuration.puertoRemoto) -u \(configuration.usuario) -c \(contrasenaDescifrada ?? "")"
+        let extrasshValue = configuration.extrassh.isEmpty ? "NONE" : configuration.extrassh
+        let flexocksParamsMasked = "-h \(configuration.host) -l \(configuration.puertoLocal) -r \(configuration.puertoRemoto) -o \(extrasshValue) -u \(configuration.usuario) -c [OCULTA]"
+        let flexocksParams = "-h \(configuration.host) -l \(configuration.puertoLocal) -r \(configuration.puertoRemoto) -o \(extrasshValue) -u \(configuration.usuario) -c \(contrasenaDescifrada ?? "")"
 
         _ = executeflexocksAction(.start, params: flexocksParams)
+
         writeToLog(message: flexocksParamsMasked)
         checkStatus()
     }
@@ -582,8 +585,11 @@ struct ContentView: View {
     @State private var puertoRemoto: String = ""
     @State private var usuario: String = ""
     @State private var contrasena: String = ""
+    @State private var extrassh: String = ""
     @State private var originalConfiguration: Configuration?
     @State private var hasChanges: Bool = false
+    @State private var isExtraSSHEnabled: Bool = false
+
 
     func loadConfigurationData() {
         if let currentConfig = Configuration.loadFromFile() {
@@ -592,6 +598,7 @@ struct ContentView: View {
             puertoRemoto = currentConfig.puertoRemoto
             usuario = currentConfig.usuario
             contrasena = currentConfig.contrasena
+            extrassh = currentConfig.extrassh
             writeToLog(message: "Configuración cargada")
         }
     }
@@ -601,7 +608,7 @@ struct ContentView: View {
             return
         }
 
-        let flexocksParamsMasked = "-h \(host) -l \(puertoLocal) -r \(puertoRemoto) -u \(usuario) -c [OCULTA]"
+        let flexocksParamsMasked = "-h \(host) -l \(puertoLocal) -r \(puertoRemoto) -o \(extrassh) -u \(usuario) -c [OCULTA]"
 
         var passwordChanged: Bool {
             return contrasena != originalConfiguration?.contrasena
@@ -611,6 +618,7 @@ struct ContentView: View {
                          puertoLocal != originalConfiguration?.puertoLocal ||
                          puertoRemoto != originalConfiguration?.puertoRemoto ||
                          usuario != originalConfiguration?.usuario ||
+                         extrassh != originalConfiguration?.extrassh ||
                          passwordChanged
 
         if hasChanges {
@@ -631,7 +639,7 @@ struct ContentView: View {
             writeToLog(message: "Sin cambios")
         }
 
-        appManager.configureApp(host: host, puertoLocal: puertoLocal, puertoRemoto: puertoRemoto, usuario: usuario, contrasena: contrasena)
+        appManager.configureApp(host: host, puertoLocal: puertoLocal, puertoRemoto: puertoRemoto, usuario: usuario, contrasena: contrasena, extrassh: extrassh)
         self.hasChanges = hasChanges
         AppManager.shared.configurationPopover?.close()
     }
@@ -668,7 +676,14 @@ struct ContentView: View {
                 SecureField("", text: $contrasena)
                     .border(Color.gray, width: 1)
             }
-
+            HStack {
+                Text("Opciones SSH extra:")
+                    .frame(width: 100, alignment: .trailing)
+                TextField("", text: $extrassh)
+                    .border(Color.gray, width: 1)
+                    .disabled(!isExtraSSHEnabled)  // Habilita o deshabilita el TextField
+                Toggle("", isOn: $isExtraSSHEnabled) // Checkbox
+            }
             HStack(spacing: 15) {
                 Button("Cancelar") {
                     loadConfigurationData()
@@ -695,6 +710,7 @@ struct ContentView: View {
                 puertoRemoto = currentConfig.puertoRemoto
                 usuario = currentConfig.usuario
                 contrasena = currentConfig.contrasena
+                extrassh = currentConfig.extrassh
                 originalConfiguration = currentConfig
             }
         }
@@ -711,7 +727,7 @@ struct ConfigurationView: View {
 
 extension Configuration: CustomStringConvertible {
     var description: String {
-        return "Configuration(host: \(host), puertoLocal: \(puertoLocal), puertoRemoto: \(puertoRemoto), usuario: \(usuario), contrasena: [OCULTA])"
+        return "Configuration(host: \(host), puertoLocal: \(puertoLocal), puertoRemoto: \(puertoRemoto), extrassh: \(extrassh) usuario: \(usuario), contrasena: [OCULTA])"
     }
 }
 
