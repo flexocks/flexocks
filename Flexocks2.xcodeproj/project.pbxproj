@@ -32,7 +32,7 @@
 /* Begin PBXFileReference section */
 		5B1B56482AB88127007A1AD6 /* installbrew.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = installbrew.sh; path = Flexocks/installbrew.sh; sourceTree = "<group>"; };
 		5B3F807B2AA7CDCA00B2CB1F /* ffox.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ffox.icns; path = Flexocks/ffox.icns; sourceTree = "<group>"; };
-		5B7F43E92AA0D54000CBCEAB /* Flexocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flexocks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B7F43E92AA0D54000CBCEAB /* Flexocks2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flexocks2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B7F43F02AA0D54200CBCEAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B7F43F22AA0D54200CBCEAB /* Flexocks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flexocks.entitlements; sourceTree = "<group>"; };
 		5B7F43F42AA0D54200CBCEAB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 		5B7F43EA2AA0D54000CBCEAB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5B7F43E92AA0D54000CBCEAB /* Flexocks.app */,
+				5B7F43E92AA0D54000CBCEAB /* Flexocks2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,9 +128,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5B7F43E82AA0D54000CBCEAB /* Flexocks */ = {
+		5B7F43E82AA0D54000CBCEAB /* Flexocks2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B7F43F82AA0D54200CBCEAB /* Build configuration list for PBXNativeTarget "Flexocks" */;
+			buildConfigurationList = 5B7F43F82AA0D54200CBCEAB /* Build configuration list for PBXNativeTarget "Flexocks2" */;
 			buildPhases = (
 				5B7F43E52AA0D54000CBCEAB /* Sources */,
 				5B7F43E62AA0D54000CBCEAB /* Frameworks */,
@@ -140,9 +140,9 @@
 			);
 			dependencies = (
 			);
-			name = Flexocks;
+			name = Flexocks2;
 			productName = Flexocks;
-			productReference = 5B7F43E92AA0D54000CBCEAB /* Flexocks.app */;
+			productReference = 5B7F43E92AA0D54000CBCEAB /* Flexocks2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -161,7 +161,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5B7F43E42AA0D54000CBCEAB /* Build configuration list for PBXProject "Flexocks" */;
+			buildConfigurationList = 5B7F43E42AA0D54000CBCEAB /* Build configuration list for PBXProject "Flexocks2" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -174,7 +174,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5B7F43E82AA0D54000CBCEAB /* Flexocks */,
+				5B7F43E82AA0D54000CBCEAB /* Flexocks2 */,
 			);
 		};
 /* End PBXProject section */
@@ -435,7 +435,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B7F43E42AA0D54000CBCEAB /* Build configuration list for PBXProject "Flexocks" */ = {
+		5B7F43E42AA0D54000CBCEAB /* Build configuration list for PBXProject "Flexocks2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B7F43F62AA0D54200CBCEAB /* Debug */,
@@ -444,7 +444,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B7F43F82AA0D54200CBCEAB /* Build configuration list for PBXNativeTarget "Flexocks" */ = {
+		5B7F43F82AA0D54200CBCEAB /* Build configuration list for PBXNativeTarget "Flexocks2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B7F43F92AA0D54200CBCEAB /* Debug */,
