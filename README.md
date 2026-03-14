@@ -37,3 +37,4 @@
 Lo normal es que esté llena de fallos porque programar entretiene, desarrollar es un asco y la arquitectura final está muy lejos de lo que me habría gustado. Hasta para algo tan simple como ejecutar una conexión ssh hay que pisar demasiados charcos. 
 
 La versión actual habría que limpiarla un poco aún (mejor gestión del fichero de log, gestión de errores, pruebas en diferentes versiones de MacOS y Firefox,…)
+# flexocks2
