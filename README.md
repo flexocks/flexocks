@@ -38,3 +38,4 @@ Lo normal es que esté llena de fallos porque programar entretiene, desarrollar 
 
 La versión actual habría que limpiarla un poco aún (mejor gestión del fichero de log, gestión de errores, pruebas en diferentes versiones de MacOS y Firefox,…)
 # flexocks2
+# flexocks2
